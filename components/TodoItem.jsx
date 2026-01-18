@@ -58,7 +58,7 @@ const TodoItem = memo(({ todo, isCompleted, id, toggleComplete, deleteTodo, edit
                         type="checkbox"
                         checked={isCompleted}
                         onChange={() => toggleComplete(id)}
-                        className="peer w-6 h-6 border-[3px] animate-border-cycle rounded-full checked:bg-blue-500 checked:border-blue-500 transition-all cursor-pointer appearance-none bg-white/10 backdrop-blur-sm"
+                        className="peer w-6 h-6 border-[3px] border-gray-300 dark:border-gray-600 rounded-full checked:bg-blue-500 checked:border-blue-500 transition-all cursor-pointer appearance-none bg-white/10 backdrop-blur-sm"
                     />
                     <Check
                         size={14}

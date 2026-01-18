@@ -16,7 +16,20 @@ export default function Home() {
   useEffect(() => {
     const storedItems = localStorage.getItem("my-todo-list");
     if (storedItems) {
-      setTodos(JSON.parse(storedItems));
+      try {
+        const parsedOptions = JSON.parse(storedItems);
+        // Ensure all items have an ID
+        const validItems = Array.isArray(parsedOptions)
+          ? parsedOptions.map(item => ({
+            ...item,
+            id: item.id || crypto.randomUUID()
+          }))
+          : [];
+        setTodos(validItems);
+      } catch (e) {
+        console.error("Failed to parse todos", e);
+        setTodos([]);
+      }
     }
     setIsLoaded(true);
   }, []);
@@ -31,7 +44,7 @@ export default function Home() {
   const handleAddTodo = useCallback(() => {
     const newTodo = inputRef.current.value.trim();
     if (newTodo !== "") {
-      const newItem = { todo: newTodo, isCompleted: false, id: Date.now() };
+      const newItem = { todo: newTodo, isCompleted: false, id: crypto.randomUUID() };
       setTodos((prev) => [...prev, newItem]);
       inputRef.current.value = "";
       inputRef.current.focus();
@@ -74,7 +87,6 @@ export default function Home() {
         className="relative w-full max-w-3xl h-[85vh] flex flex-col bg-white/15 dark:bg-black/20 backdrop-blur-3xl rounded-[3rem] shadow-2xl border border-white/40 dark:border-white/5 p-5 md:p-12 overflow-hidden"
       >
         {/* Header */}
-        {/* Header */}
         <div className="mb-10 text-center relative z-10">
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
@@ -96,9 +108,7 @@ export default function Home() {
             </h1>
           </motion.div>
 
-          <p className="text-lg font-medium tracking-wide animate-text-cycle font-semibold drop-shadow-sm">
-            Design your day.
-          </p>
+
         </div>
 
         {/* Input Area */}
@@ -124,6 +134,7 @@ export default function Home() {
           <AnimatePresence mode="popLayout" initial={false}>
             {todos.length === 0 && isLoaded ? (
               <motion.div
+                key="empty-state"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 className="flex flex-col items-center justify-center py-20 text-center opacity-60"

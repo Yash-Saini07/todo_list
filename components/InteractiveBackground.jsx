@@ -82,18 +82,18 @@ void main() {
 `;
 
 const PALETTES = {
-  dark: [
-    { c1: "#4f46e5", c2: "#ec4899", c3: "#06b6d4" }, // Neon (Indigo/Pink/Cyan)
-    { c1: "#0f172a", c2: "#7c3aed", c3: "#38bdf8" }, // Deep Space (Dark/Violet/Sky)
-    { c1: "#115e59", c2: "#10b981", c3: "#3b82f6" }, // Emerald Abyss (Teal/Emerald/Blue)
-    { c1: "#be123c", c2: "#fb7185", c3: "#f59e0b" }, // Sunset Glow (Rose/Orange)
-  ],
-  light: [
-    { c1: "#60a5fa", c2: "#f472b6", c3: "#a78bfa" }, // Cotton Candy (Blue/Pink/Purple)
-    { c1: "#34d399", c2: "#2dd4bf", c3: "#fde047" }, // Spring Breeze (Green/Teal/Yellow)
-    { c1: "#fbbf24", c2: "#fb7185", c3: "#c084fc" }, // Golden Hour (Amber/Rose/Violet)
-    { c1: "#7dd3fc", c2: "#818cf8", c3: "#60a5fa" }, // Clear Sky (Sky/Indigo/Blue)
-  ]
+    dark: [
+        { c1: "#4f46e5", c2: "#ec4899", c3: "#06b6d4" }, // Neon (Indigo/Pink/Cyan)
+        { c1: "#0f172a", c2: "#7c3aed", c3: "#38bdf8" }, // Deep Space (Dark/Violet/Sky)
+        { c1: "#115e59", c2: "#10b981", c3: "#3b82f6" }, // Emerald Abyss (Teal/Emerald/Blue)
+        { c1: "#be123c", c2: "#fb7185", c3: "#f59e0b" }, // Sunset Glow (Rose/Orange)
+    ],
+    light: [
+        { c1: "#60a5fa", c2: "#f472b6", c3: "#a78bfa" }, // Cotton Candy (Blue/Pink/Purple)
+        { c1: "#34d399", c2: "#2dd4bf", c3: "#fde047" }, // Spring Breeze (Green/Teal/Yellow)
+        { c1: "#fbbf24", c2: "#fb7185", c3: "#c084fc" }, // Golden Hour (Amber/Rose/Violet)
+        { c1: "#7dd3fc", c2: "#818cf8", c3: "#60a5fa" }, // Clear Sky (Sky/Indigo/Blue)
+    ]
 };
 
 function LiquidMesh({ theme }) {
@@ -116,9 +116,9 @@ function LiquidMesh({ theme }) {
         () => ({
             uTime: { value: 0 },
             uMouse: { value: new THREE.Vector2(0, 0) },
-            uColor1: { value: new THREE.Color(0,0,0) },
-            uColor2: { value: new THREE.Color(0,0,0) },
-            uColor3: { value: new THREE.Color(0,0,0) },
+            uColor1: { value: new THREE.Color(0, 0, 0) },
+            uColor2: { value: new THREE.Color(0, 0, 0) },
+            uColor3: { value: new THREE.Color(0, 0, 0) },
         }),
         []
     );
@@ -126,7 +126,7 @@ function LiquidMesh({ theme }) {
     useFrame((state) => {
         if (meshRef.current) {
             const time = state.clock.getElapsedTime();
-            
+
             // 1. Time & Mouse
             meshRef.current.material.uniforms.uTime.value = time;
             const x = (state.mouse.x * viewport.width) / 2;
@@ -136,12 +136,12 @@ function LiquidMesh({ theme }) {
 
             // 2. Palette Cycling logic
             // Change palette every X seconds
-            const duration = 8.0; 
+            const duration = 8.0;
             const total = paletteSets.length;
-            
+
             // Calculate interpolation factor
             // t goes from 0 to total
-            const cycleTime = time * 0.2; // Speed of cycle
+            const cycleTime = time * 0.05; // Speed of cycle
             const index1 = Math.floor(cycleTime) % total;
             const index2 = (index1 + 1) % total;
             const mixFactor = cycleTime % 1; // 0.0 to 1.0
